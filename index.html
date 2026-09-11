@@ -20,6 +20,8 @@
     .screen{background:linear-gradient(90deg,#061427ed,#061427bb 44%,#06142705)}.card{max-width:440px}.card h2{font-size:clamp(32px,4vw,52px)}.card p{font-size:16px;max-width:360px}.card h2 em{color:#ffcf67}.go{background:#ffc447;color:#101c30;box-shadow:0 4px 0 #aa791f;font-size:16px}.go:hover{background:#ffda80}
     .help{font-size:14px;color:#b8c8d9}.controls button{color:#e8f1fa;background:#173453;border-color:#436382;font-size:14px}.help kbd{background:#173453;color:#dceaff;border-color:#436382;font-size:12px}.tips,.directory,footer{border-color:#ffffff20}.tip h3{font-size:16px}.tip p{color:#a8bbd1;font-size:14px}.department{font-size:14px;color:#9eb8d1}.department.complete{color:#80e5b7}.edition,.eyebrow,.status,.stat,.label,.best{font-size:12px;letter-spacing:.7px}.hud{flex-wrap:wrap}.toolbar .tools button{font-size:14px}.progress span{background:#ffca62}.card .micro{font-size:12px}.department.active{color:white}.card .eyebrow{color:#bcd8f4}
     @media(max-width:700px){.shell{padding:0 10px}.stage{aspect-ratio:1/1}.brand{font-size:17px}.edition{font-size:10px}.card h2{font-size:32px}.card p{font-size:14px;line-height:1.4}.tips{grid-template-columns:1fr}.hud{gap:12px}.stat b{font-size:16px}.toolbar .tools button{font-size:12px}.card .micro{font-size:10px}.intro{padding:14px 0}}
+  
+    .tips{display:none}.intro{padding:12px 0}.intro h1{font-size:32px}.intro .eyebrow,.edition{display:none}.intro p{font-size:14px}.masthead{height:48px}.directory{padding:14px 0}.department{font-size:13px}.help{padding:12px 3px}.screen .card h2{margin:12px 0}.toolbar{padding-bottom:10px}
   </style>
 </head>
 <body>
@@ -28,11 +30,11 @@
   <section class="intro"><div><div class="eyebrow"><span class="dot"></span> STORE CLOSED. GAME ON.</div><h1>Escape <em>Walmart.</em></h1></div><p>Find the coins. Evade security.<br>Reach the doors and get outside.</p></section>
   <section class="game-frame" aria-label="Bike Rush game">
     <div class="toolbar"><div class="status"><span class="dot"></span><span id="status">OBJECTIVE: ESCAPE WALMART</span></div><div class="tools"><button id="pause" disabled aria-label="Pause game">Ⅱ Pause</button><button id="fullscreen" aria-label="Toggle fullscreen">⛶ Fullscreen</button></div></div>
-    <div class="stage"><canvas id="game" width="960" height="600" aria-label="First-person supermarket. Use WASD or arrow keys to ride and turn."></canvas><div class="screen" id="screen"><div class="card"><div class="eyebrow">YOUR AISLE. YOUR RULES.</div><h2>Five departments.<br>One way<br><em>out.</em></h2><p>Start on floor 6 with three hearts. Collect five coins to unlock each elevator. Your hearts refill to three at every new stage. Descend through five departments, then take the final lift to floor 1 and escape.</p><button class="go" id="start">LET’S RIDE <span>↗</span></button><p class="micro">PRESS WASD TO START · OR TAP LET’S RIDE</p></div></div></div>
+    <div class="stage"><canvas id="game" width="960" height="600" aria-label="First-person supermarket. Use WASD or arrow keys to ride and turn."></canvas><div class="screen" id="screen"><div class="card"><div class="eyebrow">YOUR AISLE. YOUR RULES.</div><h2>Five departments.<br>One way<br><em>out.</em></h2><p>Start on floor 6 with three hearts. Find five randomly placed coins to unlock each elevator. Your hearts refill to three at every new stage. Descend through five departments, then take the final lift to floor 1 and escape.</p><button class="go" id="start">LET’S RIDE <span>↗</span></button><p class="micro">PRESS WASD TO START · OR TAP LET’S RIDE</p></div></div></div>
     <div class="hud"><div class="stat">COINS <b id="bags">0 / 5</b></div><div class="stat">TIME <b id="time">240</b></div><div class="stat">BIKE <b id="life" aria-label="3 lives">♥♥♥</b></div><div class="progress" aria-label="Bags collected"><span id="progress"></span></div><div class="best">BEST <span id="best">—</span></div></div>
   </section>
   <div class="help"><span><kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> or arrow keys to ride &nbsp; · &nbsp; <kbd>Esc</kbd> pause</span><div class="controls" aria-label="Touch controls"><button data-key="ArrowLeft" aria-label="Steer left">← LEFT</button><button data-key="ArrowUp">↑ PEDAL</button><button data-key="ArrowDown">↓ REVERSE</button><button data-key="ArrowRight" aria-label="Steer right">RIGHT →</button></div></div>
-  <section class="tips" aria-label="How to play"><div class="tip"><span class="number">01</span><div><h3>Follow the gold.</h3><p>Collect five coins in each department. Discover food, fashion, furniture, toys, and automotive aisles.</p></div></div><div class="tip"><span class="number">02</span><div><h3>Lose the guard.</h3><p>Security follows you around shelves. Keep moving, dodge carts, and use S to brake or reverse.</p></div></div><div class="tip"><span class="number">03</span><div><h3>Elevator. One floor down.</h3><p>Five coins unlock the elevator. Each new stage refills your three hearts. Descend from floor 6 to floor 2, then take the last lift to floor 1 and escape.</p></div></div></section>
+  <section class="tips" aria-label="How to play"><div class="tip"><span class="number">01</span><div><h3>Follow the gold.</h3><p>Coins move to new safe spots every run. Explore each department to find all five.</p></div></div><div class="tip"><span class="number">02</span><div><h3>Lose the guard.</h3><p>Security follows you around shelves. Keep moving, dodge carts, and use S to brake or reverse.</p></div></div><div class="tip"><span class="number">03</span><div><h3>Elevator. One floor down.</h3><p>Five coins unlock the elevator. Each new stage refills your three hearts. Descend from floor 6 to floor 2, then take the last lift to floor 1 and escape.</p></div></div></section>
   <section class="directory" aria-label="Store departments"><div class="eyebrow">ESCAPE ROUTE · 5 COINS UNLOCK EACH GATE</div><div id="department-list"></div></section>
   <footer><span>ESCAPE WALMART · UNOFFICIAL FAN GAME</span><span>MADE FOR A QUICK BREAK ↗</span></footer>
 </main>
@@ -54,14 +56,59 @@ departments.forEach(({bounds:[l,t,r,b]},i)=>{
   if(shelf)map[yy][xx]='1';
  }
 });
-const bagSpots=departments.flatMap(({bounds:[l,t,r,b]},section)=>[[l+1.1,t+1.1],[r-.1,t+1.1],[r-.1,t+5.5],[l+1.1,b-.1],[(l+r)/2+.5,b-.1]].map(([x,y])=>({x,y,section})));
-const TARGET=bagSpots.length,DURATION=240,MAX_LIFE=3;
+const TARGET=25,DURATION=240,MAX_LIFE=3;
+function clearance(px,py,section){
+ const [l,t,r,b]=departments[section].bounds;
+ let gap=Math.min(px-l,py-t,r+1-px,b+1-py);
+ for(let yy=Math.max(t,Math.floor(py)-2);yy<=Math.min(b,Math.floor(py)+2);yy++)for(let xx=Math.max(l,Math.floor(px)-2);xx<=Math.min(r,Math.floor(px)+2);xx++){
+  if(map[yy][xx]!=='1')continue;
+  gap=Math.min(gap,Math.hypot(Math.max(xx-px,0,px-xx-1),Math.max(yy-py,0,py-yy-1)));
+ }
+ return gap;
+}
+function reachableCells(section){
+ const [l,t,r,b]=departments[section].bounds,queue=[[l,t+5]],seen=new Set();
+ for(let i=0;i<queue.length;i++){
+  const [xx,yy]=queue[i],key=xx+','+yy;
+  if(xx<l||xx>r||yy<t||yy>b||map[yy][xx]!=='0'||seen.has(key))continue;
+  seen.add(key);queue.push([xx+1,yy],[xx-1,yy],[xx,yy+1],[xx,yy-1]);
+ }
+ return seen;
+}
+function shuffle(list){for(let i=list.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[list[i],list[j]]=[list[j],list[i]]}return list}
+function placeItems(){
+ const coins=[],obstacles=[];
+ departments.forEach(({bounds:[l,t,r,b]},section)=>{
+  const reachable=reachableCells(section),candidates=[];
+  const spawn={x:l+.6,y:t+5.5},gate={x:r+.35,y:b+.25};
+  for(let yy=t+1;yy<=b;yy+=.5)for(let xx=l+1;xx<=r;xx+=.5){
+   const o={x:xx,y:yy,section};
+   if(reachable.has(Math.floor(xx)+','+Math.floor(yy))&&clearance(xx,yy,section)>=.95&&distance(o,spawn)>2&&distance(o,gate)>1.5)candidates.push(o);
+  }
+  shuffle(candidates);const chosen=[];
+  for(const o of candidates){if(chosen.every(p=>distance(o,p)>=2)){chosen.push(o);if(chosen.length===5)break}}
+  if(chosen.length!==5)throw Error('Not enough safe coin positions');
+  coins.push(...chosen.map((o,i)=>({...o,got:false,bob:i})));
+  // Different routes and obstacle counts for each department, shuffled each run.
+  const routes=[];
+  for(let yy=t+1;yy<b;yy++)for(let xx=l+1;xx<r;xx++)for(const axis of ['x','y']){
+   const o={x:xx+.5,y:yy+.5,section,t:'cart',axis,originX:xx+.5,originY:yy+.5,phase:Math.random()*Math.PI*2};
+   if(distance(o,spawn)<2.5||distance(o,gate)<1.7||chosen.some(p=>distance(o,p)<1.2))continue;
+   if([-.65,0,.65].every(v=>clearance(o.x+(axis==='x'?v:0),o.y+(axis==='y'?v:0),section)>=.45))routes.push(o);
+  }
+  const carts=[];for(const o of shuffle(routes)){if(carts.every(h=>distance(h,o)>1.6)){carts.push(o);if(carts.length===2+Math.floor(section/2))break}}
+  obstacles.push(...carts);
+  const spills=shuffle(candidates.filter(o=>chosen.every(p=>distance(o,p)>1.5)&&carts.every(h=>distance(o,h)>1.7)));
+  if(spills.length)obstacles.push({...spills[0],t:'spill'});
+ });
+ return {coins,obstacles};
+}
 let elevator=null;
 let activeSection=0,guard,notice=0,hudKey="",paused=false,raf=0,best=0,visited=new Set();
 try{best=Number(localStorage.getItem('valuemart-five-stage-best'))||0}catch{}
 document.querySelector('#best').textContent=best?best+'s left':'—';
 let playing=false,last=0,timer,bags,life,flash,shake,player,items,hazards,exit,zbuf=[];
-function reset(){elevator=null;timer=DURATION;bags=0;life=MAX_LIFE;flash=shake=0;activeSection=0;hudKey='';items=bagSpots.map((p,i)=>({...p,got:false,bob:i}));hazards=departments.flatMap(({bounds:[l,t,r,b]},i)=>[{x:l+3.5,y:t+5.5,t:'cart',origin:l+3.5,phase:i,section:i},{x:r-.4,y:b-1.3,t:'spill',phase:i,section:i},{x:l+1.5,y:t+2.4,t:'cart',origin:l+1.5,phase:i+2,section:i}]);enterSection(0);updateHud()}
+function reset(){elevator=null;timer=DURATION;bags=0;life=MAX_LIFE;flash=shake=0;activeSection=0;hudKey='';const placement=placeItems();items=placement.coins;hazards=placement.obstacles;enterSection(0);updateHud()}
 function enterSection(index){
  activeSection=index;const [l,t,r,b]=departments[index].bounds;
  player={x:l+.6,y:t+5.5,a:0,speed:0,steer:0,inv:2};
@@ -154,7 +201,7 @@ function step(dt){
  items.forEach(o=>{o.bob+=dt*4;if(o.section===activeSection&&!o.got&&distance(player,o)<.48){o.got=true;bags++}});
  // A reached checkpoint takes priority over hazards in the same frame.
  if(distance(player,exit)<.65&&sectionReady()){checkpoint();return}
- hazards.filter(h=>h.section===activeSection).forEach(h=>{if(h.t==='cart')h.x=h.origin+Math.sin((DURATION-timer)*(1.3+activeSection*.3)+h.phase)*.65;if(distance(player,h)<(h.t==='spill'?.34:.48))hit()});
+ hazards.filter(h=>h.section===activeSection).forEach(h=>{if(h.t==='cart'){const offset=Math.sin((DURATION-timer)*(1.3+activeSection*.3)+h.phase)*.65;h.x=h.originX+(h.axis==='x'?offset:0);h.y=h.originY+(h.axis==='y'?offset:0);}if(distance(player,h)<(h.t==='spill'?.34:.48))hit()});
  if(!playing)return;moveGuard(dt);reveal();updateHud();
 }
 function ray(angle){
@@ -183,8 +230,8 @@ function drawSurfaces(){
    const side=(col/120-1)*spread,wx=player.x+d*(cs-sn*side),wy=player.y+d*(sn+cs*side);
    const fx=wx-Math.floor(wx),fy=wy-Math.floor(wy),seam=fx<.025||fy<.025;
    const checker=(Math.floor(wx)+Math.floor(wy))%2===0?8:0;
-   let tone=(seam?102:179+checker)*shade;
-   if(activeSection===2)tone=(seam?91:165+Math.sin(wx*64)*5)*shade;
+   const detail=Math.max(0,1-d/7);let tone=(179+(seam?-35:checker)*detail)*shade;
+   if(activeSection===2)tone=(seam?138:172)*shade;
    const n=(row*240+col)*4;p[n]=tone+(activeSection===2?16:0);p[n+1]=tone;p[n+2]=tone+(activeSection===4?8:0);p[n+3]=255;
   }
  }
@@ -195,19 +242,23 @@ function drawSurfaces(){
   for(let col=0;col<240;col++){
    const side=(col/120-1)*spread,wx=player.x+d*(cs-sn*side),wy=player.y+d*(sn+cs*side);
    const fx=wx-Math.floor(wx),fy=wy-Math.floor(wy),lamp=Math.floor(wx)%3===0&&fx>.28&&fx<.72&&fy>.12&&fy<.85;
-   const tone=lamp?230:(fx<.02||fy<.02?103:152)*shade,n=((149-row)*240+col)*4;
+   const detail=Math.max(0,1-d/9);const tone=(152+(lamp?78:fx<.02||fy<.02?-20:0)*detail)*shade,n=((149-row)*240+col)*4;
    p[n]=tone;p[n+1]=tone+(lamp?8:0);p[n+2]=tone+(lamp?12:3);p[n+3]=255;
   }
  }
  fg.putImageData(floorPixels,0,0);x.drawImage(floorCanvas,0,0,W,H/2);
 }
 function text(t,px,py,size,col){x.fillStyle=col;x.font=`900 ${size}px Arial`;x.textAlign='center';x.fillText(t,px,py)}
-function sprite(o,type){let dx=o.x-player.x,dy=o.y-player.y,cs=Math.cos(player.a),sn=Math.sin(player.a),depth=dx*cs+dy*sn,side=-dx*sn+dy*cs;if(depth<=.12)return;let sx=W/2+side/depth*(W/(2*Math.tan(FOV/2))),scale=Math.min(330,190/depth),ix=Math.max(0,Math.min(RAYS-1,Math.floor(sx/W*RAYS)));if(zbuf[ix]&&depth>zbuf[ix]+.08)return;let y=H/2+scale*.3+(type==='bag'?Math.sin(o.bob)*5:0);x.save();x.translate(sx,y);if(type==='bag'){x.fillStyle='#ffc83d';x.strokeStyle='#fff1a3';x.lineWidth=Math.max(2,scale*.03);x.beginPath();x.ellipse(0,-scale*.32,scale*.19,scale*.24,0,0,Math.PI*2);x.fill();x.stroke();text('$',0,-scale*.23,scale*.26,'#9f5700')}else if(type==='cart'){x.fillStyle='#cad6da';x.fillRect(-scale*.34,-scale*.33,scale*.62,scale*.3);x.strokeStyle='#455b66';x.lineWidth=scale*.06;x.strokeRect(-scale*.34,-scale*.33,scale*.62,scale*.3);x.beginPath();x.moveTo(scale*.26,-scale*.31);x.lineTo(scale*.42,-scale*.51);x.stroke();x.fillStyle='#172d3d';[-.2,.18].forEach(q=>{x.beginPath();x.arc(q*scale,0,scale*.07,0,7);x.fill()})}else if(type==='guard'){x.fillStyle='#202b46';x.fillRect(-scale*.17,-scale*.63,scale*.34,scale*.43);x.fillStyle='#e4b58c';x.beginPath();x.arc(0,-scale*.78,scale*.12,0,Math.PI*2);x.fill();x.fillStyle='#19273d';x.fillRect(-scale*.15,-scale*.91,scale*.3,scale*.09);x.fillStyle='#ffce57';x.fillRect(-scale*.1,-scale*.55,scale*.07,scale*.09);x.strokeStyle='#1a2135';x.lineWidth=scale*.1;const stride=Math.sin((DURATION-timer)*10)*scale*.07;x.beginPath();x.moveTo(-scale*.08,-scale*.22);x.lineTo(-scale*.11+stride,0);x.moveTo(scale*.08,-scale*.22);x.lineTo(scale*.11-stride,0);x.stroke();text('SECURITY',0,-scale,scale*.1,'#ff9a7e')}else if(type==='exit'){if(atlasReady&&activeSection===4){x.drawImage(departmentTextures[8],-scale*.45,-scale*.9,scale*.9,scale*.95);text(sectionReady()?'FLOOR 1 ↓':'LOCKED · 5 COINS',0,-scale*.98,scale*.12,sectionReady()?'#a5ffd4':'#ffbf75')}else{x.fillStyle=sectionReady()?'#50d873':'#71828a';x.fillRect(-scale*.3,-scale*.75,scale*.6,scale*.78);x.fillStyle='#fff';x.fillRect(-scale*.2,-scale*.65,scale*.4,scale*.2);text(sectionReady()?(activeSection===departments.length-1?'FLOOR 1 ↓':'LIFT ↓'):'5 COINS',0,-scale*.48,scale*.12,sectionReady()?'#126d31':'#30434b')}}else{x.fillStyle='#65aee0';x.beginPath();x.ellipse(0,0,scale*.36,scale*.12,0,0,7);x.fill();x.fillStyle='#d9f6ff';x.beginPath();x.ellipse(-scale*.1,-scale*.03,scale*.14,scale*.045,0,0,7);x.fill()}x.restore()}
-function draw(){if(elevator){drawElevator();return}drawSurfaces();for(let col=0;col<RAYS;col++){let a=player.a-FOV/2+(col/RAYS)*FOV,r=ray(a),d=r.d*Math.cos(a-player.a),h=Math.min(H*1.3,H/d),left=col*W/RAYS;zbuf[col]=d;let top=H/2-h/2,cw=W/RAYS+1;
+function sprite(o,type){let dx=o.x-player.x,dy=o.y-player.y,cs=Math.cos(player.a),sn=Math.sin(player.a),depth=dx*cs+dy*sn,side=-dx*sn+dy*cs;if(depth<=.12)return;let sx=W/2+side/depth*(W/(2*Math.tan(FOV/2))),scale=Math.min(330,190/depth),ix=Math.max(0,Math.min(RAYS-1,Math.floor(sx/W*RAYS)));if(sx+scale<0||sx-scale>W)return;let y=H/2+scale*.3+(type==='bag'?Math.sin(o.bob)*5:0);x.save();x.beginPath();let visibleColumns=0;
+ for(let col=Math.max(0,Math.floor((sx-scale)/W*RAYS));col<Math.min(RAYS,Math.ceil((sx+scale)/W*RAYS));col++){
+  if(!zbuf[col]||depth<=zbuf[col]+.02){x.rect(col*W/RAYS,0,W/RAYS,H);visibleColumns++}
+ }
+ if(!visibleColumns){x.restore();return}x.clip();x.translate(sx,y);if(type==='bag'){x.fillStyle='#ffc83d';x.strokeStyle='#fff1a3';x.lineWidth=Math.max(2,scale*.03);x.beginPath();x.ellipse(0,-scale*.32,scale*.19,scale*.24,0,0,Math.PI*2);x.fill();x.stroke();text('$',0,-scale*.23,scale*.26,'#9f5700')}else if(type==='cart'){x.fillStyle='#cad6da';x.fillRect(-scale*.34,-scale*.33,scale*.62,scale*.3);x.strokeStyle='#455b66';x.lineWidth=scale*.06;x.strokeRect(-scale*.34,-scale*.33,scale*.62,scale*.3);x.beginPath();x.moveTo(scale*.26,-scale*.31);x.lineTo(scale*.42,-scale*.51);x.stroke();x.fillStyle='#172d3d';[-.2,.18].forEach(q=>{x.beginPath();x.arc(q*scale,0,scale*.07,0,7);x.fill()})}else if(type==='guard'){x.fillStyle='#202b46';x.fillRect(-scale*.17,-scale*.63,scale*.34,scale*.43);x.fillStyle='#e4b58c';x.beginPath();x.arc(0,-scale*.78,scale*.12,0,Math.PI*2);x.fill();x.fillStyle='#19273d';x.fillRect(-scale*.15,-scale*.91,scale*.3,scale*.09);x.fillStyle='#ffce57';x.fillRect(-scale*.1,-scale*.55,scale*.07,scale*.09);x.strokeStyle='#1a2135';x.lineWidth=scale*.1;const stride=Math.sin((DURATION-timer)*10)*scale*.07;x.beginPath();x.moveTo(-scale*.08,-scale*.22);x.lineTo(-scale*.11+stride,0);x.moveTo(scale*.08,-scale*.22);x.lineTo(scale*.11-stride,0);x.stroke();text('SECURITY',0,-scale,scale*.1,'#ff9a7e')}else if(type==='exit'){if(atlasReady&&activeSection===4){x.drawImage(departmentTextures[8],-scale*.45,-scale*.9,scale*.9,scale*.95);text(sectionReady()?'FLOOR 1 ↓':'LOCKED · 5 COINS',0,-scale*.98,scale*.12,sectionReady()?'#a5ffd4':'#ffbf75')}else{x.fillStyle=sectionReady()?'#50d873':'#71828a';x.fillRect(-scale*.3,-scale*.75,scale*.6,scale*.78);x.fillStyle='#fff';x.fillRect(-scale*.2,-scale*.65,scale*.4,scale*.2);text(sectionReady()?(activeSection===departments.length-1?'FLOOR 1 ↓':'LIFT ↓'):'5 COINS',0,-scale*.48,scale*.12,sectionReady()?'#126d31':'#30434b')}}else{x.fillStyle='#65aee0';x.beginPath();x.ellipse(0,0,scale*.36,scale*.12,0,0,7);x.fill();x.fillStyle='#d9f6ff';x.beginPath();x.ellipse(-scale*.1,-scale*.03,scale*.14,scale*.045,0,0,7);x.fill()}x.restore()}
+function draw(){if(elevator){drawElevator();return}drawSurfaces();for(let col=0;col<RAYS;col++){let a=player.a+Math.atan(((col+.5)/RAYS*2-1)*Math.tan(FOV/2)),r=ray(a),d=r.d*Math.cos(a-player.a),h=H/d,left=col*W/RAYS;zbuf[col]=d;let top=H/2-h/2,cw=W/RAYS;
  x.fillStyle=r.outer?'#537d6d':(departments[r.section]?.color||'#c6ccb5');x.fillRect(left,top,cw,h);
  if(!r.outer&&atlasReady){const choices=textureSets[activeSection],tex=departmentTextures[choices[Math.abs(r.cellX+r.cellY)%choices.length]];x.drawImage(tex,Math.floor(r.u*511),0,1,512,left,top,cw,h)}else if(r.outer){x.fillStyle='#c1c9cc';x.fillRect(left,top,cw,h);x.fillStyle='#1262a8';x.fillRect(left,top+h*.22,cw,h*.1);x.fillStyle='#46545e';x.fillRect(left,top+h*.92,cw,h*.08)}
  x.fillStyle=departments[activeSection].color;x.fillRect(left,top,cw,h*.065);x.fillStyle='#1a2738';x.fillRect(left,top+h*.065,cw,h*.045);
- x.fillStyle=`rgba(21,44,35,${Math.min(.65,d/15)+(r.side?.07:0)})`;x.fillRect(left,top,cw,h);}x.save();if(shake)x.translate((Math.random()-.5)*shake*20,(Math.random()-.5)*shake*20);[...items.filter(o=>!o.got&&o.section===activeSection).map(o=>({...o,type:'bag'})),...hazards.filter(o=>o.section===activeSection).map(o=>({...o,type:o.t})),{...guard,type:'guard'},{...exit,type:'exit'}].sort((a,b)=>distance(player,b)-distance(player,a)).forEach(o=>sprite(o,o.type));x.restore();x.fillStyle='#19382dcc';x.fillRect(0,H-48,W,48);x.strokeStyle='#dce4d6';x.lineWidth=7;x.beginPath();x.moveTo(W*.19,H);x.lineTo(W*.34,H-48);x.lineTo(W*.5,H-25);x.lineTo(W*.66,H-48);x.lineTo(W*.81,H);x.stroke();x.fillStyle='#ec3d4b';x.fillRect(W*.46,H-31,W*.08,12);x.fillStyle='#dceaf3';x.fillRect(W*.475,H-26,W*.05,4);if(flash){x.fillStyle='#ed405155';x.fillRect(0,0,W,H)}const danger=Math.max(0,1-distance(guard,player)/5);if(danger&&guard.delay<=0){x.strokeStyle='rgba(255,50,60,'+(danger*(.4+.2*Math.sin(timer*12)))+')';x.lineWidth=20+danger*20;x.strokeRect(0,0,W,H)}x.fillStyle='#092952cc';x.fillRect(14,13,440,51);const section=activeSection;text(section<0?'MAIN CROSS AISLE':'FLOOR '+(6-section)+' · '+departments[section].name.toUpperCase(),234,34,13,'#fff');text(sectionReady()?'CHECKPOINT OPEN · '+(activeSection===departments.length-1?'ELEVATOR TO FLOOR 1':'RIDE INTO THE ELEVATOR'):'COLLECT '+items.filter(o=>o.section===activeSection&&!o.got).length+' COINS · THEN REACH THE CHECKPOINT',234,52,10,'#c4e997');text(guard.delay>0?'SECURITY ARRIVES IN '+Math.ceil(guard.delay)+'s':guard.stun>0?'GUARD STUNNED · KEEP RIDING':distance(guard,player)<4?'GUARD CLOSE! KEEP MOVING':'SECURITY IS FOLLOWING YOU',W/2,90,14,'#ffbd8d');if(notice>0&&guard.stun<=0)text('LEVEL '+(activeSection+1)+' / 5 · FLOOR '+(6-activeSection),W/2,H-85,23,'#fff');drawMap();text(Math.round(Math.abs(player.speed)*8)+' KM/H',W/2,H-8,12,'#dce4d6')}
+ x.fillStyle=`rgba(21,44,35,${Math.min(.65,d/15)+(r.side?.07:0)})`;x.fillRect(left,top,cw,h);}x.save();[...items.filter(o=>!o.got&&o.section===activeSection).map(o=>({...o,type:'bag'})),...hazards.filter(o=>o.section===activeSection).map(o=>({...o,type:o.t})),{...guard,type:'guard'},{...exit,type:'exit'}].sort((a,b)=>distance(player,b)-distance(player,a)).forEach(o=>sprite(o,o.type));x.restore();x.fillStyle='#19382dcc';x.fillRect(0,H-48,W,48);x.strokeStyle='#dce4d6';x.lineWidth=7;x.beginPath();x.moveTo(W*.19,H);x.lineTo(W*.34,H-48);x.lineTo(W*.5,H-25);x.lineTo(W*.66,H-48);x.lineTo(W*.81,H);x.stroke();x.fillStyle='#ec3d4b';x.fillRect(W*.46,H-31,W*.08,12);x.fillStyle='#dceaf3';x.fillRect(W*.475,H-26,W*.05,4);if(flash){x.fillStyle='#ed405155';x.fillRect(0,0,W,H)}const danger=Math.max(0,1-distance(guard,player)/5);if(danger&&guard.delay<=0){x.strokeStyle='rgba(255,50,60,'+(danger*.3)+')';x.lineWidth=20+danger*20;x.strokeRect(0,0,W,H)}x.fillStyle='#092952cc';x.fillRect(14,13,440,51);const section=activeSection;text(section<0?'MAIN CROSS AISLE':'FLOOR '+(6-section)+' · '+departments[section].name.toUpperCase(),234,34,13,'#fff');text(sectionReady()?'CHECKPOINT OPEN · '+(activeSection===departments.length-1?'ELEVATOR TO FLOOR 1':'RIDE INTO THE ELEVATOR'):'COLLECT '+items.filter(o=>o.section===activeSection&&!o.got).length+' COINS · THEN REACH THE CHECKPOINT',234,52,10,'#c4e997');if(guard.delay>0||distance(guard,player)<4)text(guard.delay>0?'SECURITY IN '+Math.ceil(guard.delay)+'s':'GUARD CLOSE · KEEP MOVING',W/2,90,14,'#ffbd8d');if(notice>0&&guard.stun<=0)text('LEVEL '+(activeSection+1)+' / 5 · FLOOR '+(6-activeSection),W/2,H-85,23,'#fff');drawMap();text(Math.round(Math.abs(player.speed)*8)+' KM/H',W/2,H-8,12,'#dce4d6')}
 function drawMap(){
  const cell=11,ox=W-143,oy=20,cx=Math.floor(player.x),cy=Math.floor(player.y);
  x.fillStyle='#19382df0';x.fillRect(ox-9,oy-9,139,166);

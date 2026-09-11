@@ -34,7 +34,7 @@
     <div class="hud"><div class="stat">COINS <b id="bags">0 / 5</b></div><div class="stat">TIME <b id="time">240</b></div><div class="stat">BIKE <b id="life" aria-label="3 lives">♥♥♥</b></div><div class="progress" aria-label="Bags collected"><span id="progress"></span></div><div class="best">BEST <span id="best">—</span></div></div>
   </section>
   <div class="help"><span><kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> or arrow keys to ride &nbsp; · &nbsp; <kbd>Esc</kbd> pause</span><div class="controls" aria-label="Touch controls"><button data-key="ArrowLeft" aria-label="Steer left">← LEFT</button><button data-key="ArrowUp">↑ PEDAL</button><button data-key="ArrowDown">↓ REVERSE</button><button data-key="ArrowRight" aria-label="Steer right">RIGHT →</button></div></div>
-  <section class="tips" aria-label="How to play"><div class="tip"><span class="number">01</span><div><h3>Follow the gold.</h3><p>Coins move to new safe spots every run. Explore each department to find all five.</p></div></div><div class="tip"><span class="number">02</span><div><h3>Lose the guard.</h3><p>Security follows you around shelves. Keep moving, dodge carts, and use S to brake or reverse.</p></div></div><div class="tip"><span class="number">03</span><div><h3>Elevator. One floor down.</h3><p>Five coins unlock the elevator. Each new stage refills your three hearts. Descend from floor 6 to floor 2, then take the last lift to floor 1 and escape.</p></div></div></section>
+  <section class="tips" aria-label="How to play"><div class="tip"><span class="number">01</span><div><h3>Follow the gold.</h3><p>Coins spawn in open spaces, well away from shelves. Explore each unique floor plan to find all five.</p></div></div><div class="tip"><span class="number">02</span><div><h3>Lose the guard.</h3><p>Security follows you around shelves. Keep moving, dodge carts, and use S to brake or reverse.</p></div></div><div class="tip"><span class="number">03</span><div><h3>Elevator. One floor down.</h3><p>Five coins unlock the elevator. Each new stage refills your three hearts. Descend from floor 6 to floor 2, then take the last lift to floor 1 and escape.</p></div></div></section>
   <section class="directory" aria-label="Store departments"><div class="eyebrow">ESCAPE ROUTE · 5 COINS UNLOCK EACH GATE</div><div id="department-list"></div></section>
   <footer><span>ESCAPE WALMART · UNOFFICIAL FAN GAME</span><span>MADE FOR A QUICK BREAK ↗</span></footer>
 </main>
@@ -42,25 +42,28 @@
 const c=document.querySelector('#game'),x=c.getContext('2d'),screen=document.querySelector('#screen'),bagsEl=document.querySelector('#bags'),timeEl=document.querySelector('#time'),lifeEl=document.querySelector('#life');
 const W=960,H=600,FOV=Math.PI/3,RAYS=320,keys={};
 const departments=[
- {name:'Grocery',color:'#547b35',floor:'#c7d8aa',goods:['🍎','🥕','🍌','🥦','🥛','🍞'],bounds:[1,1,9,11]},
- {name:'Clothing & Shoes',color:'#9a4779',floor:'#dfbfd6',goods:['👕','👗','👖','👟','👠','🧥'],bounds:[11,1,21,11]},
- {name:'Home & Furniture',color:'#966a41',floor:'#d9c8ad',goods:['🛋️','🛏️','🪑','💡','🪴','🛁'],bounds:[23,1,35,13]},
- {name:'Toys & Seasonal',color:'#6353ae',floor:'#bfc7ed',goods:['🧸','🎁','🪁','🎄','🎃','🤖'],bounds:[1,15,15,27]},
- {name:'Hardlines & Automotive',color:'#46657b',floor:'#aebcc8',goods:['🛞','🔧','🧰','🔨','🚗','🛢️'],bounds:[18,15,34,29]}
+ {name:'Grocery',color:'#547b35',floor:'#c7d8aa',goods:['🍎','🥕','🍌','🥦','🥛','🍞'],bounds:[1,1,19,19]},
+ {name:'Clothing & Shoes',color:'#9a4779',floor:'#dfbfd6',goods:['👕','👗','👖','👟','👠','🧥'],bounds:[23,1,43,17]},
+ {name:'Home & Furniture',color:'#966a41',floor:'#d9c8ad',goods:['🛋️','🛏️','🪑','💡','🪴','🛁'],bounds:[47,1,67,21]},
+ {name:'Toys & Seasonal',color:'#6353ae',floor:'#bfc7ed',goods:['🧸','🎁','🪁','🎄','🎃','🤖'],bounds:[1,25,23,45]},
+ {name:'Hardlines & Automotive',color:'#46657b',floor:'#aebcc8',goods:['🛞','🔧','🧰','🔨','🚗','🛢️'],bounds:[27,25,51,45]}
 ];
-const map=Array.from({length:32},()=>Array(38).fill('0'));
-departments.forEach(({bounds:[l,t,r,b]},i)=>{
- for(let xx=l+2;xx<r-1;xx++)for(let yy=t+2;yy<=b-2;yy++){
-  let shelf=i===0? (xx-l)%3===2 : i===1? (yy-t)%3===2&&((xx-l)%5!==0) : i===2? (xx-l)%4<2&&(yy-t)%4<2 : i===3? (xx-l)%3===2&&(yy-t)%4!==0 : (xx-l)%3===2;
-  if(yy===t+5||xx===l+1||yy===b-1)shelf=false;
-  if(shelf)map[yy][xx]='1';
- }
-});
+const map=Array.from({length:48},()=>Array(70).fill('0'));
+// Each department has its own architecture, with broad connected circulation routes.
+const layouts=[
+ [[4,3,2,5],[4,12,2,4],[10,3,2,5],[10,12,2,4],[15,6,1,7]],
+ [[4,3,5,1],[12,3,5,1],[7,8,5,1],[3,12,4,1],[14,12,4,1]],
+ [[4,3,5,1],[4,3,1,5],[13,3,4,1],[16,3,1,5],[4,12,1,5],[4,16,5,1],[13,12,4,1],[16,12,1,5]],
+ [[9,8,4,4],[4,3,3,2],[16,3,3,2],[4,15,3,2],[16,15,3,2]],
+ [[4,3,2,10],[11,7,2,10],[18,3,2,10],[6,17,2,1]]
+];
+departments.forEach(({bounds:[l,t]},i)=>{for(const [ox,oy,w,h] of layouts[i])for(let yy=t+oy;yy<t+oy+h;yy++)for(let xx=l+ox;xx<l+ox+w;xx++)map[yy][xx]='1'});
+const COIN_CLEARANCE=1.8;
 const TARGET=25,DURATION=240,MAX_LIFE=3;
 function clearance(px,py,section){
  const [l,t,r,b]=departments[section].bounds;
  let gap=Math.min(px-l,py-t,r+1-px,b+1-py);
- for(let yy=Math.max(t,Math.floor(py)-2);yy<=Math.min(b,Math.floor(py)+2);yy++)for(let xx=Math.max(l,Math.floor(px)-2);xx<=Math.min(r,Math.floor(px)+2);xx++){
+ for(let yy=Math.max(t,Math.floor(py)-3);yy<=Math.min(b,Math.floor(py)+3);yy++)for(let xx=Math.max(l,Math.floor(px)-3);xx<=Math.min(r,Math.floor(px)+3);xx++){
   if(map[yy][xx]!=='1')continue;
   gap=Math.min(gap,Math.hypot(Math.max(xx-px,0,px-xx-1),Math.max(yy-py,0,py-yy-1)));
  }
@@ -83,10 +86,10 @@ function placeItems(){
   const spawn={x:l+.6,y:t+5.5},gate={x:r+.35,y:b+.25};
   for(let yy=t+1;yy<=b;yy+=.5)for(let xx=l+1;xx<=r;xx+=.5){
    const o={x:xx,y:yy,section};
-   if(reachable.has(Math.floor(xx)+','+Math.floor(yy))&&clearance(xx,yy,section)>=.95&&distance(o,spawn)>2&&distance(o,gate)>1.5)candidates.push(o);
+   if(reachable.has(Math.floor(xx)+','+Math.floor(yy))&&clearance(xx,yy,section)>=COIN_CLEARANCE&&distance(o,spawn)>2&&distance(o,gate)>1.5)candidates.push(o);
   }
   shuffle(candidates);const chosen=[];
-  for(const o of candidates){if(chosen.every(p=>distance(o,p)>=2)){chosen.push(o);if(chosen.length===5)break}}
+  for(const o of candidates){if(chosen.every(p=>distance(o,p)>=3)){chosen.push(o);if(chosen.length===5)break}}
   if(chosen.length!==5)throw Error('Not enough safe coin positions');
   coins.push(...chosen.map((o,i)=>({...o,got:false,bob:i})));
   // Different routes and obstacle counts for each department, shuffled each run.
@@ -232,7 +235,11 @@ function drawSurfaces(){
    const checker=(Math.floor(wx)+Math.floor(wy))%2===0?8:0;
    const detail=Math.max(0,1-d/7);let tone=(179+(seam?-35:checker)*detail)*shade;
    if(activeSection===2)tone=(seam?138:172)*shade;
-   const n=(row*240+col)*4;p[n]=tone+(activeSection===2?16:0);p[n+1]=tone;p[n+2]=tone+(activeSection===4?8:0);p[n+3]=255;
+   const finishes=[[8,12,0],[16,2,13],[24,8,-12],[-6,4,24],[-14,-6,1]],finish=finishes[activeSection];
+   if(activeSection===1)tone=(164+checker*.3)*shade;
+   if(activeSection===3)tone=(174+checker*2*detail)*shade;
+   if(activeSection===4)tone=(150+checker*.4)*shade;
+   const n=(row*240+col)*4;p[n]=tone+finish[0]*shade;p[n+1]=tone+finish[1]*shade;p[n+2]=tone+finish[2]*shade;p[n+3]=255;
   }
  }
  fg.putImageData(floorPixels,0,0);x.drawImage(floorCanvas,0,H/2,W,H/2);
@@ -256,24 +263,23 @@ function sprite(o,type){let dx=o.x-player.x,dy=o.y-player.y,cs=Math.cos(player.a
  if(!visibleColumns){x.restore();return}x.clip();x.translate(sx,y);if(type==='bag'){x.fillStyle='#ffc83d';x.strokeStyle='#fff1a3';x.lineWidth=Math.max(2,scale*.03);x.beginPath();x.ellipse(0,-scale*.32,scale*.19,scale*.24,0,0,Math.PI*2);x.fill();x.stroke();text('$',0,-scale*.23,scale*.26,'#9f5700')}else if(type==='cart'){x.fillStyle='#cad6da';x.fillRect(-scale*.34,-scale*.33,scale*.62,scale*.3);x.strokeStyle='#455b66';x.lineWidth=scale*.06;x.strokeRect(-scale*.34,-scale*.33,scale*.62,scale*.3);x.beginPath();x.moveTo(scale*.26,-scale*.31);x.lineTo(scale*.42,-scale*.51);x.stroke();x.fillStyle='#172d3d';[-.2,.18].forEach(q=>{x.beginPath();x.arc(q*scale,0,scale*.07,0,7);x.fill()})}else if(type==='guard'){x.fillStyle='#202b46';x.fillRect(-scale*.17,-scale*.63,scale*.34,scale*.43);x.fillStyle='#e4b58c';x.beginPath();x.arc(0,-scale*.78,scale*.12,0,Math.PI*2);x.fill();x.fillStyle='#19273d';x.fillRect(-scale*.15,-scale*.91,scale*.3,scale*.09);x.fillStyle='#ffce57';x.fillRect(-scale*.1,-scale*.55,scale*.07,scale*.09);x.strokeStyle='#1a2135';x.lineWidth=scale*.1;const stride=Math.sin((DURATION-timer)*10)*scale*.07;x.beginPath();x.moveTo(-scale*.08,-scale*.22);x.lineTo(-scale*.11+stride,0);x.moveTo(scale*.08,-scale*.22);x.lineTo(scale*.11-stride,0);x.stroke();text('SECURITY',0,-scale,scale*.1,'#ff9a7e')}else if(type==='exit'){if(atlasReady&&activeSection===4){x.drawImage(departmentTextures[8],-scale*.45,-scale*.9,scale*.9,scale*.95);text(sectionReady()?'FLOOR 1 ↓':'LOCKED · 5 COINS',0,-scale*.98,scale*.12,sectionReady()?'#a5ffd4':'#ffbf75')}else{x.fillStyle=sectionReady()?'#50d873':'#71828a';x.fillRect(-scale*.3,-scale*.75,scale*.6,scale*.78);x.fillStyle='#fff';x.fillRect(-scale*.2,-scale*.65,scale*.4,scale*.2);text(sectionReady()?(activeSection===departments.length-1?'FLOOR 1 ↓':'LIFT ↓'):'5 COINS',0,-scale*.48,scale*.12,sectionReady()?'#126d31':'#30434b')}}else{x.fillStyle='#65aee0';x.beginPath();x.ellipse(0,0,scale*.36,scale*.12,0,0,7);x.fill();x.fillStyle='#d9f6ff';x.beginPath();x.ellipse(-scale*.1,-scale*.03,scale*.14,scale*.045,0,0,7);x.fill()}x.restore()}
 function draw(){if(elevator){drawElevator();return}drawSurfaces();for(let col=0;col<RAYS;col++){let a=player.a+Math.atan(((col+.5)/RAYS*2-1)*Math.tan(FOV/2)),r=ray(a),d=r.d*Math.cos(a-player.a),h=H/d,left=col*W/RAYS;zbuf[col]=d;let top=H/2-h/2,cw=W/RAYS;
  x.fillStyle=r.outer?'#537d6d':(departments[r.section]?.color||'#c6ccb5');x.fillRect(left,top,cw,h);
- if(!r.outer&&atlasReady){const choices=textureSets[activeSection],tex=departmentTextures[choices[Math.abs(r.cellX+r.cellY)%choices.length]];x.drawImage(tex,Math.floor(r.u*511),0,1,512,left,top,cw,h)}else if(r.outer){x.fillStyle='#c1c9cc';x.fillRect(left,top,cw,h);x.fillStyle='#1262a8';x.fillRect(left,top+h*.22,cw,h*.1);x.fillStyle='#46545e';x.fillRect(left,top+h*.92,cw,h*.08)}
+ if(!r.outer&&atlasReady){const choices=textureSets[activeSection],tex=departmentTextures[choices[Math.abs(r.cellX+r.cellY)%choices.length]];x.drawImage(tex,Math.floor(r.u*511),0,1,512,left,top,cw,h)}else if(r.outer){x.fillStyle=['#d8dfd3','#dfd2db','#ddd1bd','#cfd5ed','#a8b4bf'][activeSection];x.fillRect(left,top,cw,h);x.fillStyle=departments[activeSection].color;x.fillRect(left,top+h*.22,cw,h*.1);x.fillStyle='#46545e';x.fillRect(left,top+h*.92,cw,h*.08)}
  x.fillStyle=departments[activeSection].color;x.fillRect(left,top,cw,h*.065);x.fillStyle='#1a2738';x.fillRect(left,top+h*.065,cw,h*.045);
  x.fillStyle=`rgba(21,44,35,${Math.min(.65,d/15)+(r.side?.07:0)})`;x.fillRect(left,top,cw,h);}x.save();[...items.filter(o=>!o.got&&o.section===activeSection).map(o=>({...o,type:'bag'})),...hazards.filter(o=>o.section===activeSection).map(o=>({...o,type:o.t})),{...guard,type:'guard'},{...exit,type:'exit'}].sort((a,b)=>distance(player,b)-distance(player,a)).forEach(o=>sprite(o,o.type));x.restore();x.fillStyle='#19382dcc';x.fillRect(0,H-48,W,48);x.strokeStyle='#dce4d6';x.lineWidth=7;x.beginPath();x.moveTo(W*.19,H);x.lineTo(W*.34,H-48);x.lineTo(W*.5,H-25);x.lineTo(W*.66,H-48);x.lineTo(W*.81,H);x.stroke();x.fillStyle='#ec3d4b';x.fillRect(W*.46,H-31,W*.08,12);x.fillStyle='#dceaf3';x.fillRect(W*.475,H-26,W*.05,4);if(flash){x.fillStyle='#ed405155';x.fillRect(0,0,W,H)}const danger=Math.max(0,1-distance(guard,player)/5);if(danger&&guard.delay<=0){x.strokeStyle='rgba(255,50,60,'+(danger*.3)+')';x.lineWidth=20+danger*20;x.strokeRect(0,0,W,H)}x.fillStyle='#092952cc';x.fillRect(14,13,440,51);const section=activeSection;text(section<0?'MAIN CROSS AISLE':'FLOOR '+(6-section)+' · '+departments[section].name.toUpperCase(),234,34,13,'#fff');text(sectionReady()?'CHECKPOINT OPEN · '+(activeSection===departments.length-1?'ELEVATOR TO FLOOR 1':'RIDE INTO THE ELEVATOR'):'COLLECT '+items.filter(o=>o.section===activeSection&&!o.got).length+' COINS · THEN REACH THE CHECKPOINT',234,52,10,'#c4e997');if(guard.delay>0||distance(guard,player)<4)text(guard.delay>0?'SECURITY IN '+Math.ceil(guard.delay)+'s':'GUARD CLOSE · KEEP MOVING',W/2,90,14,'#ffbd8d');if(notice>0&&guard.stun<=0)text('LEVEL '+(activeSection+1)+' / 5 · FLOOR '+(6-activeSection),W/2,H-85,23,'#fff');drawMap();text(Math.round(Math.abs(player.speed)*8)+' KM/H',W/2,H-8,12,'#dce4d6')}
 function drawMap(){
- const cell=11,ox=W-143,oy=20,cx=Math.floor(player.x),cy=Math.floor(player.y);
- x.fillStyle='#19382df0';x.fillRect(ox-9,oy-9,139,166);
- for(let j=-5;j<=5;j++)for(let i=-5;i<=5;i++){let xx=cx+i,yy=cy+j;const known=visited.has(xx+','+yy);x.fillStyle=!known?'#14271f':solid(xx,yy)?'#72917e':'#27483b';x.fillRect(ox+(i+5)*cell,oy+(j+5)*cell,cell-1,cell-1)}
- const pos=o=>({x:ox+(o.x-cx+5)*cell,y:oy+(o.y-cy+5)*cell});
- const visible=o=>Math.abs(o.x-cx-0.5)<5&&Math.abs(o.y-cy-0.5)<5&&visited.has(Math.floor(o.x)+','+Math.floor(o.y));
- for(const o of items){if(o.section===activeSection&&!o.got&&visible(o)){const p=pos(o);x.fillStyle='#ffce57';x.beginPath();x.arc(p.x,p.y,2.5,0,Math.PI*2);x.fill()}}
- for(const cart of hazards){
-  if(cart.section!==activeSection||cart.t!=='cart'||Math.abs(cart.x-cx-.5)>=5||Math.abs(cart.y-cy-.5)>=5)continue;
-  const p=pos(cart);x.fillStyle='#ff9457';x.fillRect(p.x-3.5,p.y-3,7,5);
-  x.fillStyle='#fff';x.fillRect(p.x-3,p.y+3,2,2);x.fillRect(p.x+1,p.y+3,2,2);
+ const [l,t,r,b]=departments[activeSection].bounds,cell=Math.min(140/(r-l+1),140/(b-t+1)),ox=W-158,oy=22;
+ x.fillStyle='#0b1724ee';x.fillRect(ox-8,oy-8,156,184);
+ for(let yy=t;yy<=b;yy++)for(let xx=l;xx<=r;xx++){
+  const known=visited.has(xx+','+yy);x.fillStyle=map[yy][xx]==='1'?departments[activeSection].color:known?'#344959':'#162431';
+  x.fillRect(ox+(xx-l)*cell,oy+(yy-t)*cell,cell-.5,cell-.5);
  }
- if(visible(exit)){const p=pos(exit);x.fillStyle=sectionReady()?'#c4ff85':'#809689';x.fillRect(p.x-3,p.y-3,6,6)}
- if(visible(guard)){const g=pos(guard);x.fillStyle='#ff685f';x.beginPath();x.arc(g.x,g.y,3,0,Math.PI*2);x.fill()}
- const p=pos(player);x.save();x.translate(p.x,p.y);x.rotate(player.a);x.fillStyle='#fff';x.beginPath();x.moveTo(6,0);x.lineTo(-4,-4);x.lineTo(-2,0);x.lineTo(-4,4);x.closePath();x.fill();x.restore();text('NEARBY · UNEXPLORED = DARK',ox+60,oy+135,8,'#ceddcb');text('ORANGE = MOVING CART',ox+60,oy+150,8,'#ffad75');
+ const pos=o=>({x:ox+(o.x-l)*cell,y:oy+(o.y-t)*cell});
+ for(const o of items){if(o.section===activeSection&&!o.got&&visited.has(Math.floor(o.x)+','+Math.floor(o.y))){const p=pos(o);x.fillStyle='#ffce57';x.beginPath();x.arc(p.x,p.y,3,0,Math.PI*2);x.fill()}}
+ for(const o of hazards){if(o.section===activeSection&&o.t==='cart'){const p=pos(o);x.fillStyle='#ff9457';x.fillRect(p.x-3,p.y-2,6,4)}}
+ const ep=pos(exit);x.fillStyle=sectionReady()?'#9fffc3':'#8295a4';x.fillRect(ep.x-3,ep.y-3,6,6);
+ if(visited.has(Math.floor(guard.x)+','+Math.floor(guard.y))){const p=pos(guard);x.fillStyle='#ff6273';x.beginPath();x.arc(p.x,p.y,3,0,Math.PI*2);x.fill()}
+ const p=pos(player);x.save();x.translate(p.x,p.y);x.rotate(player.a);x.fillStyle='#fff';x.beginPath();x.moveTo(5,0);x.lineTo(-3,-3);x.lineTo(-3,3);x.closePath();x.fill();x.restore();
+ text('FLOOR '+(6-activeSection)+' · FULL MAP',ox+70,oy+154,10,'#e1edf5');text('GOLD COINS · ORANGE CARTS',ox+70,oy+169,8,'#ffcb86');
 }
 function loop(now){if(!playing||paused)return;let dt=Math.min(.05,(now-last)/1000);last=now;step(dt);draw();if(playing&&!paused)raf=requestAnimationFrame(loop)}
 let pointer=null;
